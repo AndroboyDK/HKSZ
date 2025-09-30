@@ -1,0 +1,46 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList } from 'react-native';
+import styles from '../../styles/styles';
+import { useAuth } from '../../context/AuthContext';
+import { db } from '../../lib/firebase';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+
+export default function CustomerActiveRentalScreen() {
+  const { user } = useAuth();
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    if (!user) return;
+    const q = query(
+      collection(db, 'rentals'),
+      where('customerUid', '==', user.uid),
+      where('status', '==', 'active')
+    );
+    const unsub = onSnapshot(q, (snap) => {
+      const out = [];
+      snap.forEach((d) => out.push({ id: d.id, ...d.data() }));
+      setRows(out);
+    });
+    return () => unsub();
+  }, [user]);
+
+  return (
+    <View style={styles.containerList}>
+      <FlatList
+        data={rows}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={<Text style={styles.h1}>My Active Rental</Text>}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        contentContainerStyle={styles.listContent}
+        ListEmptyComponent={<Text style={styles.cardSubtitle}>No active rental.</Text>}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <Text style={styles.cardTitle}>{item.spotTitle || 'Parking spot'}</Text>
+            <Text style={styles.cardSubtitle}>Status: {item.status}</Text>
+            <Text style={styles.cardSubtitle}>Since: (started)</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+}

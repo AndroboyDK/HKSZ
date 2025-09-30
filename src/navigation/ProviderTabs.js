@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProviderProfileScreen from '../screens/provider/ProviderProfileScreen';
 import ProviderRentalsScreen from '../screens/provider/ProviderRentalsScreen';
 import RequestsScreen from '../screens/provider/RequestsScreen';
+import ProviderCurrentRentalsScreen from '../screens/provider/ProviderCurrentRentalsScreen';
+import ProviderMySpotsScreen from '../screens/provider/ProviderMySpotsScreen';
 import { Ionicons } from '@expo/vector-icons';
 
 
@@ -16,26 +18,24 @@ export default function ProviderTabs() {
             screenOptions={({ route }) => ({
                 headerShown: true,
                 tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-
-                    if (route.name === 'Requests') {
-                        iconName = focused ? 'list' : 'list-outline';
-                    } else if (route.name === 'Previous Rentals') {
-                        iconName = focused ? 'calendar' : 'calendar-outline';
-                    } else if (route.name === 'Profile') {
-                        iconName = focused ? 'settings' : 'settings-outline';
-                    }
-
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                    let icon = 'ellipse';
+                    if (route.name === 'Requests') icon = focused ? 'list' : 'list-outline';
+                    if (route.name === 'My Spots') icon = focused ? 'pin' : 'pin-outline';
+                    if (route.name === 'Current Rentals') icon = focused ? 'car' : 'car-outline';
+                    if (route.name === 'Previous Rentals') icon = focused ? 'time' : 'time-outline';
+                    if (route.name === 'Profile') icon = focused ? 'settings' : 'settings-outline';
+                    return <Ionicons name={icon} size={size} color={color} />;
                 },
                 tabBarActiveTintColor: '#2f6fed',
                 tabBarInactiveTintColor: 'gray',
             })}
         >
             <Tab.Screen name="Requests" component={RequestsScreen} />
+            <Tab.Screen name="My Spots" component={ProviderMySpotsScreen} />
+            <Tab.Screen name="Current Rentals" component={ProviderCurrentRentalsScreen} />
             <Tab.Screen name="Previous Rentals" component={ProviderRentalsScreen} />
             <Tab.Screen name="Profile" component={ProviderProfileScreen} />
-        </Tab.Navigator>
+        </Tab.Navigator >
 
     );
 }

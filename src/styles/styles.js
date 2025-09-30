@@ -41,6 +41,18 @@ const styles = StyleSheet.create({
     secondaryButtonSmall: { backgroundColor: '#f1f3f5', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10 },
     secondaryButtonText: { color: '#111', fontWeight: '700' },
     row: { flexDirection: 'row', marginTop: 8 },
+    inputLabel: { fontSize: 14, fontWeight: '600', marginTop: 12, marginBottom: 6 },
+    input: {
+        borderWidth: 1,
+        borderColor: '#e2e8f0',
+        borderRadius: 10,
+        padding: 12,
+        fontSize: 16,
+        backgroundColor: '#fff',
+    },
+    linkButton: { alignItems: 'center', marginTop: 12 },
+    linkText: { color: '#2f6fed', fontWeight: '600' },
+    switchRow: { flexDirection: 'row', alignItems: 'center', marginTop: 12 }
 });
 
 
