@@ -1,26 +1,24 @@
-// FØLGENDE DELES LIGE NU I GITHUB; MEN VIL IKE VÆRE INKLUDERET I DEN FÆRDIGE APP PÅ GITHUB NÅR REPO SKAL VÆRE OFFENTLIG. 
-
-
-// src/lib/firebase.js
 import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+} from '@env';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC6Chi6cnkc6_1XaIuB9LfIYuBmzD-X7iw",
-  authDomain: "parking-share-mvp.firebaseapp.com",
-  projectId: "parking-share-mvp",
-  storageBucket: "parking-share-mvp.firebasestorage.app",
-  messagingSenderId: "665218960257",
-  appId: "1:665218960257:web:c2565d428b7378a086f680"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
-
-// Ensure native persistence for RN
-export const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage),
-});
-
 export const db = getFirestore(app);
+export const auth = getAuth(app);
