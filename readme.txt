@@ -1,205 +1,94 @@
-Goddag
+Parking Share App – React Native / Expo MVP
 
-Først installere depnedencies: 
+Dette projekt er et Minimum Viable Product (MVP) for en app, der gør det muligt at dele og leje parkeringspladser. Appen er udviklet i React Native ved hjælp af Expo og Firebase.
 
-npm install 
+Formålet med projektet er at vise, hvordan man kan opbygge en simpel men fuldt funktionel applikation, hvor brugere kan have to roller: kunden, der leder efter og lejer parkeringspladser, og udlejeren (provider), der tilbyder sine parkeringspladser til leje. Projektet indeholder login- og registreringsfunktion med Firebase Authentication, realtime data med Firestore, CRUD-funktionalitet for parkeringspladser, og navigation mellem forskellige skærme ved hjælp af React Navigation.
 
+For at køre projektet skal du have installeret Node.js (version 18 eller nyere), npm eller yarn, Expo CLI samt Watchman (hvis du bruger macOS). Du skal også have Xcode (for iOS simulator) eller Android Studio (for Android emulator).
 
-eller 
+Sådan kommer du i gang
 
+Klon projektet fra GitHub med kommandoen:
+git clone https://github.com/AndroboyDK/HKSZ/
+Gå derefter ind i mappen med:
+cd parking-share-app
 
-npm install @react-navigation/bottom-tabs @react-navigation/native @react-navigation/native-stack expo expo-status-bar react react-native react-native-screens react-native-safe-area-context react-native-maps @expo/vector-icons
+Installer alle afhængigheder:
+npm install
 
-Dernæst kør appen.. 
-npx expo start --tunnel
+Opret et Firebase-projekt på https://console.firebase.google.com
+ og aktiver Authentication (Email/Password) samt Cloud Firestore.
 
+Opret filen src/lib/firebase.js og indsæt din Firebase konfiguration. Et eksempel ser sådan ud:
 
-Sees
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
+const firebaseConfig = {
+  apiKey: 'DIN_API_KEY',
+  authDomain: 'DIT_DOMAIN',
+  projectId: 'DIT_PROJECT_ID',
+  storageBucket: 'DIT_BUCKET',
+  messagingSenderId: 'DIN_SENDER_ID',
+  appId: 'DIT_APP_ID',
+};
 
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 
-SPRINTS: 
-✅ Completed Sprints
-Sprint A — Authentication
+Start projektet med kommandoen:
+npx expo start
+Herefter kan du trykke i for iOS simulator, a for Android emulator eller scanne QR-koden i Expo Go appen på din telefon.
 
-Integrated Firebase Authentication (email/password).
+Projektstruktur
 
-Added AuthContext to manage login state.
+Projektet er opdelt i følgende mapper:
 
-Users can sign up, log in, log out.
+src/components: fælles komponenter
 
-Status: ✔️ Done.
+src/context: globale React Contexts (Auth og Role)
 
-Sprint B — Requests (live updates)
+src/navigation: navigationsopsætning
 
-Connected Requests list (Provider) to Firestore with real-time updates.
+src/screens: skærme opdelt i customer og provider
 
-Created RequestDetails screen with Accept/Decline actions.
+src/utils: validering og hjælpefunktioner
 
-Accept/Decline updates Firestore instantly.
+src/styles: global styling i én samlet styles.js
 
-Status: ✔️ Done.
+src/lib: Firebase opsætning
 
-Sprint C — Rentals (basic)
 
-On Accept, automatically creates a rental in Firestore.
 
-Previous Rentals screens (Customer & Provider) now fetch data from Firestore.
+Alle tekster i appen vil være på dansk til sidst, og knapper samt labels skal holdes korte og klare.
 
-Status: ✔️ Done.
+Sådan tester du appen på en fysisk enhed
 
-Sprint D — Spots + Find Parking + Request Flow
+Installer Expo Go fra App Store eller Google Play. Start derefter appen med npx expo start, og scan QR-koden, der vises i terminalen.
 
-Created spots collection in Firestore.
+Fejlfinding
 
-Providers can seed demo spots.
+Hvis du oplever problemer med afhængigheder eller Expo, kan du slette mappen node_modules og køre npm install igen. Du kan også rydde cachen med npx expo start -c. Hvis du stadig har problemer, kan du kontakte Zedan, som står for integration og overblik.
 
-Customers see available spots on a map (Find Parking).
+Projektets funktionalitet
 
-New SpotDetails screen → customers can “Request booking”.
+Appen indeholder to hovedroller. Som kunde kan man oprette en profil, se sine tidligere lejeaftaler og finde parkeringspladser på et kort. Som udlejer kan man oprette og administrere parkeringspladser, modtage og håndtere forespørgsler samt se sine nuværende og tidligere udlejninger.
 
-Request goes to provider’s Requests → normal Accept flow.
+Der arbejdes løbende i sprints, hvor nye funktioner tilføjes. Projektet bruger Firebase Firestore til realtime data og Authentication til brugerstyring.
 
-Status: ✔️ Done.
+Kørsel af demo
 
-Sprint E — Rental Lifecycle + Current Rentals
+Når appen er startet i Expo, kan du oprette en bruger via login-skærmen og derefter navigere mellem de forskellige faner. Alle data gemmes i Firestore, så du kan se ændringer i realtid mellem kunde- og udlejervisning.
 
-Rentals now have statuses: active, completed.
+Projektansvarlige
 
-Accepting a request → sets timeStart, locks the spot (isAvailable = false).
+Zedan – Alt andet :)
 
-Provider can complete a rental → sets timeEnd, unlocks spot.
+Kenneth – MapPicker og SpotForms
 
-New Provider Current Rentals screen.
+Habib – Brugerprofiler (kunde og udlejer)
 
-Optional Customer Active Rental screen.
-
-Previous Rentals now show only completed.
-
-Status: ✔️ Done.
-
-Sprint F — Provider Spot Management (CRUD)
-
-New My Spots screen for providers.
-
-Add Spot and Edit Spot forms with validation.
-
-Providers can toggle availability, edit details, and delete spots.
-
-Deletion blocked if the spot has an active rental.
-
-Customers now see provider-created spots, not seeded ones.
-
-Status: ✔️ Done.
-
-🚀 Upcoming Sprints
-Sprint G — User Profiles
-
-Add users/{uid} documents (name, phone, vehicle info, payout info).
-
-Build Profile screens to view/update this info.
-
-Data persists across logins.
-
-Goal: Let customers store vehicle/payment details, providers store payout info.
-
-Sprint H — Security Rules Hardening
-
-Firestore rules:
-
-Only providers can mutate their spots.
-
-Only involved users can view/edit requests & rentals.
-
-Move from “dev mode” to production-ready rules.
-
-Goal: Protect data integrity before broader testing.
-
-Sprint I — Request Flow Enhancements
-
-Add time picker (start/end) when requesting a spot.
-
-Compute total price (hours × pricePerHour).
-
-Prevent requests on already active rentals.
-
-Goal: Make booking flow realistic.
-
-Sprint J — Rental Lifecycle Polish
-
-Auto-complete rentals when end time passes (later via Cloud Functions).
-
-Add cancel flow.
-
-Split Active vs Previous rentals into dedicated tabs.
-
-Goal: Rentals reflect real-world lifecycle smoothly.
-
-Sprint K — Notifications
-
-Push notifications via Expo:
-
-Provider notified on new request.
-
-Customer notified on accept/decline/completion.
-
-Store device tokens per user.
-
-Goal: Real-time engagement.
-
-Sprint L — Geo & Search UX
-
-Allow filtering/sorting in Find Parking (price, distance, EV charger, covered).
-
-Add bounding-box queries around map region.
-
-Goal: Smarter discovery for customers.
-
-Sprint M — Payments
-
-Start with mock “payment successful” screen.
-
-Integrate Stripe test mode for real payments.
-
-Record payment status in rentals.
-
-Goal: Monetize booking flow.
-
-Sprint N — Cloud Functions
-
-Server-side enforcement:
-
-Atomic accept → rental creation + spot lock.
-
-Rental complete → unlock spot, notify.
-
-Goal: Integrity & automation.
-
-Sprint O — Reliability & Performance
-
-Pagination for lists.
-
-Loading states & error handling.
-
-Firestore offline persistence.
-
-Goal: Scale & resilience.
-
-Sprint P — Polish & Launch Readiness
-
-App theming, icons, splash screen.
-
-Build via EAS for TestFlight/Play Store.
-
-Add basic analytics.
-
-Goal: Shareable MVP build.
-
-Sprint Q — QA & Automation
-
-Lightweight tests (unit + integration).
-
-Crash reporting (Sentry/Crashlytics).
-
-Goal: Stability in test/production.
+Suzan – Bookingflow (tid og opsummering)
