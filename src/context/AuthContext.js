@@ -1,17 +1,8 @@
-// Create: src/context/AuthContext.js
-
-// What it will do:
-
-// Subscribe to onAuthStateChanged(auth, ...).
-
-// Expose { user, loading, signIn, signUp, signOut }.
-
-// On first sign up, create a user profile doc in Firestore at users/{uid} with basic fields (e.g., role: 'customer', createdAt).
-
-// We’ll add the minimal logic in the next step; for now just create the file.
+//In this file we will create an authentication context to manage user authentication state and provide authentication functions throughout the app.
+//What this means is that we will create a context that will hold the current user's information and provide functions to sign in, sign up, and sign out.
 
 
-// src/context/AuthContext.js
+
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { auth, db } from '../lib/firebase';
 import {
@@ -23,16 +14,28 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
+//We have now imported things such as createContext, useContext, useEffect, useMemo, and useState from React to help us manage state and context.
+//We have also imported necessary functions from our firebase.js file and Firebase Authentication and Firestore modules. For example a document function from Firestore to create and manage user profiles.
+
+
+// Create the AuthContext with default value null
 const AuthContext = createContext(null);
 
+// AuthProvider component to wrap around the app and provide auth state and functions
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
+    console.log("Setting up auth state listener...");
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      setInitializing(false);
+      if (firebaseUser) {
+        console.log("Auth state changed: Logged in as", firebaseUser.displayName || firebaseUser.email);
+      } else {
+        console.log("Auth state changed: Logged out");
+      }
+      setUser(firebaseUser || null);
+      if (initializing) setInitializing(false);
     });
     return () => unsub();
   }, []);
