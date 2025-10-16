@@ -14,7 +14,10 @@
     }
   },
   "ios": {
-    "supportsTablet": true
+    "supportsTablet": true,
+    "infoPlist": {
+      "NSLocationWhenInUseUsageDescription": "Denne app har brug for din placering for at vise nærliggende parkeringspladser."
+    }
   },
   "android": {
     "adaptiveIcon": {

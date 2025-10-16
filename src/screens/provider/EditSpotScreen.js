@@ -4,6 +4,7 @@ import styles from '../../styles/styles';
 import { db } from '../../lib/firebase';
 import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { isNonEmpty, isAddress, toNumberSafe, isLat, isLng, isPrice } from '../../utils/validate';
+import K_MapPicker from './K_MapPicker'; // Oprettet af Kenneth
 
 export default function EditSpotScreen({ route, navigation }) {
   const { spotId } = route.params || {};
@@ -83,11 +84,14 @@ export default function EditSpotScreen({ route, navigation }) {
       <Text style={styles.inputLabel}>Address</Text>
       <TextInput style={styles.input} value={address} onChangeText={setAddress} />
 
-      <Text style={styles.inputLabel}>Latitude</Text>
-      <TextInput style={styles.input} value={lat} onChangeText={setLat} keyboardType="numeric" />
-
-      <Text style={styles.inputLabel}>Longitude</Text>
-      <TextInput style={styles.input} value={lng} onChangeText={setLng} keyboardType="numeric" />
+      <K_MapPicker
+        value={{ lat: parseFloat(lat) || 55.6761, lng: parseFloat(lng) || 12.5683, address }}
+        onChange={({ lat, lng, address }) => {
+          setLat(lat.toString());
+          setLng(lng.toString());
+          setAddress(address);
+        }}
+      />
 
       <Text style={styles.inputLabel}>Price per hour (kr)</Text>
       <TextInput style={styles.input} value={price} onChangeText={setPrice} keyboardType="numeric" />
