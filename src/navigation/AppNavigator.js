@@ -1,3 +1,5 @@
+//Heroppe importerer vi alle de skærme vi har lavet og sætter dem op i en stack navigator.
+//Vi bruger også context til at tjekke om brugeren er logget ind og hvilken rolle de har (kunde eller udlejer) for at vise de rigtige skærme.
 import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,6 +12,8 @@ import AuthStack from './AuthStack';
 import SpotDetailsScreen from '../screens/customer/SpotDetailsScreen';
 import AddSpotScreen from '../screens/provider/AddSpotScreen';
 import EditSpotScreen from '../screens/provider/EditSpotScreen';
+import S_RequestTimeScreen from '../screens/customer/S_RequestTimeScreen';
+import S_RequestSummaryScreen from '../screens/customer/S_RequestSummaryScreen';
 
 
 // Nye skærme
@@ -46,6 +50,17 @@ export default function AppNavigator() {
           name="RequestDetails"
           component={RequestDetailsScreen}
           options={{ headerShown: true, title: 'Request Details' }}
+        />
+        <Stack.Screen
+          name="RequestTime"
+          component={S_RequestTimeScreen}
+          options={{ title: 'Vælg tid' }}
+        />
+
+        <Stack.Screen
+          name="RequestSummary"
+          component={S_RequestSummaryScreen}
+          options={{ title: 'Opsummering' }}
         />
         <Stack.Screen
           name="SpotDetails"
