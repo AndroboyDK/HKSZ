@@ -58,7 +58,7 @@ export default function ProviderCurrentRentalsScreen() {
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Text style={styles.cardTitle}>{item.spotTitle || 'Parking spot'}</Text>
-            <Text style={styles.cardSubtitle}>Customer: {item.customerUid}</Text>
+            <Text style={styles.cardSubtitle}>Customer: {item.customer ? item.customer : 'Ukendt bruger'}</Text>
             <Text style={styles.cardSubtitle}>Since: (started)</Text>
             <Text style={styles.cardSubtitle}>Status: {item.status}</Text>
             <View style={styles.row}>

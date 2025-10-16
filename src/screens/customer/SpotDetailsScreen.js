@@ -21,32 +21,6 @@ export default function SpotDetailsScreen({ route, navigation }) {
     return () => { mounted = false; };
   }, [spotId]);
 
-  const createRequest = async () => {
-    if (!user || !spot) return;
-    try {
-      setBusy(true);
-      await addDoc(collection(db, 'requests'), {
-        spotId: spot.id,
-        spotTitle: spot.title,
-        providerUid: spot.providerUid,
-        customerUid: user.uid,
-        customer: user.displayName || 'Customer',
-        time: 'Today 14:00-16:00', // MVP placeholder
-        price: spot.pricePerHour,   // MVP: base price
-        vehicle: 'N/A',
-        notes: '',
-        status: 'pending',
-        createdAt: serverTimestamp(),
-      });
-      Alert.alert('Request sent', 'Provider will review your request.');
-      navigation.goBack();
-    } catch (e) {
-      Alert.alert('Error', e.message || 'Failed to create request');
-    } finally {
-      setBusy(false);
-    }
-  };
-
   if (!spotId) {
     return (
       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
@@ -76,12 +50,10 @@ export default function SpotDetailsScreen({ route, navigation }) {
       <View style={styles.row}>
         <TouchableOpacity
           style={styles.primaryButton}
-          onPress={createRequest}
-          disabled={busy || !spot.isAvailable}
+          onPress={() => navigation.navigate('RequestTime', { spot })}
+          disabled={!spot.isAvailable}
         >
-          <Text style={styles.primaryButtonText}>
-            {busy ? 'Sending…' : 'Request booking'}
-          </Text>
+          <Text style={styles.primaryButtonText}>Vælg tid</Text>
         </TouchableOpacity>
       </View>
     </View>
