@@ -11,6 +11,7 @@ import SpotDetailsScreen from '../screens/customer/SpotDetailsScreen';
 import AddSpotScreen from '../screens/provider/AddSpotScreen';
 import EditSpotScreen from '../screens/provider/EditSpotScreen';
 
+
 // Nye skærme
 import H_CustomerProfileScreen from '../screens/customer/H_CustomerProfileScreen';
 import H_ProviderPayoutScreen from '../screens/provider/H_ProviderPayoutScreen';
