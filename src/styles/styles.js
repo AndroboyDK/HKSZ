@@ -1,59 +1,129 @@
 import { StyleSheet } from 'react-native';
 
-
 const styles = StyleSheet.create({
-    container: { flexGrow: 1, padding: 16, backgroundColor: '#fff' },
-    containerList: { flex: 1, backgroundColor: '#fff' },
+    container: { flexGrow: 1, padding: 16, backgroundColor: '#E9F5EC' },
+    containerList: { flex: 1, backgroundColor: '#E9F5EC' },
     section: { padding: 16 },
-    h1: { fontSize: 24, fontWeight: '700', marginBottom: 12 },
-    h2: { fontSize: 18, fontWeight: '600', marginBottom: 8 },
-    list: { gap: 6 },
-    listItem: { fontSize: 16 },
+
+    // Typography
+    h1: { fontSize: 26, fontWeight: '700', color: '#102420', marginBottom: 12 },
+    h2: { fontSize: 20, fontWeight: '600', color: '#1F4E46', marginBottom: 8 },
+    listItem: { fontSize: 16, color: '#102420' },
+    cardTitle: { fontSize: 18, fontWeight: '600', color: '#102420', marginBottom: 6 },
+    cardSubtitle: { color: '#4F6F68', fontSize: 15, marginBottom: 4 },
+    cardValue: { fontSize: 17, fontWeight: '700', color: '#1F4E46' },
+
+    // Cards
     card: {
-        backgroundColor: '#f8f9fb',
-        padding: 16,
-        borderRadius: 12,
+        backgroundColor: '#FFFFFF',
+        padding: 18,
+        borderRadius: 16,
         shadowColor: '#000',
-        shadowOpacity: 0.06,
-        shadowRadius: 6,
-        shadowOffset: { width: 0, height: 2 },
-        elevation: 2,
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+        shadowOffset: { width: 0, height: 3 },
+        elevation: 3,
+        marginBottom: 12,
     },
     cardHeaderRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-    cardTitle: { fontSize: 16, fontWeight: '600', marginBottom: 4 },
-    cardSubtitle: { color: '#555', marginBottom: 4 },
-    cardValue: { fontSize: 16, fontWeight: '700' },
-    badge: { backgroundColor: '#e8eefc', paddingVertical: 4, paddingHorizontal: 8, borderRadius: 8 },
+    badge: {
+        backgroundColor: '#A3D9A5',
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+    },
+
     separator: { height: 12 },
     listContent: { padding: 16 },
+
+    // Buttons
     primaryButton: {
-        backgroundColor: '#2f6fed',
-        padding: 14,
-        borderRadius: 12,
+        backgroundColor: '#1F4E46',
+        padding: 15,
+        borderRadius: 14,
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row', // 👈 add this
+        flexDirection: 'row',
+        marginTop: 14,
+    },
+    primaryButtonSmall: {
+        backgroundColor: '#1F4E46',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 10,
+        marginRight: 8,
+    },
+    primaryButtonText: { color: '#FFFFFF', fontWeight: '700', fontSize: 16 },
+
+    secondaryButton: {
+        backgroundColor: '#A3D9A5',
+        padding: 14,
+        borderRadius: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
         marginTop: 12,
     },
-    primaryButtonSmall: { backgroundColor: '#2f6fed', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10, marginRight: 8 },
-    primaryButtonText: { color: '#fff', fontWeight: '700' },
-    secondaryButton: { backgroundColor: '#f1f3f5', padding: 14, borderRadius: 12, alignItems: 'center', marginTop: 12 },
-    secondaryButtonSmall: { backgroundColor: '#f1f3f5', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 10 },
-    secondaryButtonText: { color: '#111', fontWeight: '700' },
-    row: { flexDirection: 'row', marginTop: 8 },
-    inputLabel: { fontSize: 14, fontWeight: '600', marginTop: 12, marginBottom: 6 },
+    secondaryButtonSmall: {
+        backgroundColor: '#C6E7C8',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 10,
+    },
+    secondaryButtonText: { color: '#102420', fontWeight: '700', fontSize: 15 },
+
+    // Inputs
+    inputLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#1F4E46',
+        marginTop: 12,
+        marginBottom: 6,
+    },
     input: {
         borderWidth: 1,
-        borderColor: '#e2e8f0',
-        borderRadius: 10,
+        borderColor: '#C8E0CA',
+        borderRadius: 12,
         padding: 12,
         fontSize: 16,
-        backgroundColor: '#fff',
+        backgroundColor: '#FFFFFF',
+        color: '#102420',
     },
-    linkButton: { alignItems: 'center', marginTop: 12 },
-    linkText: { color: '#2f6fed', fontWeight: '600' },
-    switchRow: { flexDirection: 'row', alignItems: 'center', marginTop: 12 }
-});
 
+    // Links
+    linkButton: { alignItems: 'center', marginTop: 12 },
+    linkText: { color: '#1F4E46', fontWeight: '600', fontSize: 15 },
+
+
+    //Til authcontainer: 
+    authLogo: {
+        width: 120,
+        height: 120,
+        marginBottom: 20,
+    },
+    authCard: {
+        width: '90%',
+        maxWidth: 360,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        padding: 24,
+        shadowColor: '#000',
+        shadowOpacity: 0.06,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
+        elevation: 3,
+    },
+    authHeader: {
+        fontSize: 28,
+        fontWeight: '800',
+        color: '#4CAF50',
+        textAlign: 'center',
+        marginBottom: 24,
+    },
+
+
+    // Layout Helpers
+    row: { flexDirection: 'row', marginTop: 8 },
+    switchRow: { flexDirection: 'row', alignItems: 'center', marginTop: 12 },
+});
 
 export default styles;
