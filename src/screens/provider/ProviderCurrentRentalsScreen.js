@@ -1,9 +1,20 @@
+// src/screens/provider/ProviderCurrentRentalsScreen.js
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import styles from '../../styles/styles';
 import { useAuth } from '../../context/AuthContext';
 import { db } from '../../lib/firebase';
-import { collection, onSnapshot, query, where, updateDoc, doc, serverTimestamp, getDoc } from 'firebase/firestore';
+import {
+  collection,
+  onSnapshot,
+  query,
+  where,
+  orderBy,
+  updateDoc,
+  doc,
+  serverTimestamp,
+} from 'firebase/firestore';
 
 export default function ProviderCurrentRentalsScreen() {
   const { user } = useAuth();
@@ -12,11 +23,14 @@ export default function ProviderCurrentRentalsScreen() {
 
   useEffect(() => {
     if (!user) return;
+
     const q = query(
       collection(db, 'rentals'),
       where('providerUid', '==', user.uid),
-      where('status', '==', 'active')
+      where('status', '==', 'active'),
+      orderBy('createdAt', 'desc')
     );
+
     const unsub = onSnapshot(q, (snap) => {
       const out = [];
       snap.forEach((d) => out.push({ id: d.id, ...d.data() }));
@@ -25,22 +39,22 @@ export default function ProviderCurrentRentalsScreen() {
     return () => unsub();
   }, [user]);
 
+  // ✅ Markér leje som afsluttet
   const completeRental = async (rental) => {
     try {
       setBusyId(rental.id);
-      // 1) mark rental completed + timeEnd
       await updateDoc(doc(db, 'rentals', rental.id), {
         status: 'completed',
         timeEnd: serverTimestamp(),
       });
-      // 2) unlock the spot (available again) if exists
+
       if (rental.spotId) {
-        // optional: only unlock if no other active rentals exist for same spot
         await updateDoc(doc(db, 'spots', rental.spotId), { isAvailable: true });
       }
-      Alert.alert('Completed', 'Rental marked as completed.');
+
+      Alert.alert('Afsluttet', 'Lejeaftalen er markeret som afsluttet.');
     } catch (e) {
-      Alert.alert('Error', e.message || 'Failed to complete rental');
+      Alert.alert('Fejl', e.message || 'Kunne ikke afslutte lejeaftalen.');
     } finally {
       setBusyId(null);
     }
@@ -51,24 +65,28 @@ export default function ProviderCurrentRentalsScreen() {
       <FlatList
         data={rows}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={<Text style={styles.h1}>Current Rentals</Text>}
+        ListHeaderComponent={<Text style={styles.h1}>Aktive udlejninger</Text>}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={styles.listContent}
-        ListEmptyComponent={<Text style={styles.cardSubtitle}>No active rentals.</Text>}
+        ListEmptyComponent={
+          <Text style={styles.cardSubtitle}>Ingen aktive udlejninger lige nu.</Text>
+        }
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>{item.spotTitle || 'Parking spot'}</Text>
-            <Text style={styles.cardSubtitle}>Customer: {item.customer ? item.customer : 'Ukendt bruger'}</Text>
-            <Text style={styles.cardSubtitle}>Since: (started)</Text>
+            <Text style={styles.cardTitle}>{item.spotTitle}</Text>
+            <Text style={styles.cardSubtitle}>{item.address}</Text>
+            <Text style={styles.cardSubtitle}>Kunde: {item.customerName || 'Ukendt'}</Text>
+            <Text style={styles.cardSubtitle}>Start: {item.time?.split('-')[0]?.trim() || 'Ukendt'}</Text>
             <Text style={styles.cardSubtitle}>Status: {item.status}</Text>
-            <View style={styles.row}>
+
+            <View style={[styles.row, { marginTop: 12 }]}>
               <TouchableOpacity
                 style={styles.primaryButtonSmall}
                 onPress={() => completeRental(item)}
                 disabled={busyId === item.id || item.status !== 'active'}
               >
                 <Text style={styles.primaryButtonText}>
-                  {busyId === item.id ? 'Completing…' : 'Complete'}
+                  {busyId === item.id ? 'Afslutter…' : 'Afslut leje'}
                 </Text>
               </TouchableOpacity>
             </View>

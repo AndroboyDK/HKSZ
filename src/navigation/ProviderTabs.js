@@ -1,5 +1,4 @@
-// ProviderTabs.js
-// Redesignet navigationslinje med brandede farver og moderne ikonlogik
+// src/navigation/ProviderTabs.js
 
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 // Skærme
 import ProviderProfileScreen from '../screens/provider/ProviderProfileScreen';
-import ProviderRentalsScreen from '../screens/provider/ProviderRentalsScreen';
 import RequestsScreen from '../screens/provider/RequestsScreen';
 import ProviderCurrentRentalsScreen from '../screens/provider/ProviderCurrentRentalsScreen';
 import ProviderMySpotsScreen from '../screens/provider/ProviderMySpotsScreen';
@@ -28,7 +26,6 @@ export default function ProviderTabs() {
         headerTitleAlign: 'center',
         headerTintColor: '#1F4E46',
         headerTitleStyle: { fontWeight: '700', fontSize: 18 },
-
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
           borderTopWidth: 1,
@@ -37,37 +34,28 @@ export default function ProviderTabs() {
           paddingBottom: Platform.OS === 'ios' ? 10 : 6,
           paddingTop: 4,
         },
-        tabBarActiveTintColor: '#1F4E46', // 🌿 Deep brand green
-        tabBarInactiveTintColor: '#9EB7AA', // Muted soft green
+        tabBarActiveTintColor: '#1F4E46',
+        tabBarInactiveTintColor: '#9EB7AA',
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '600',
           marginBottom: 4,
         },
-
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
           switch (route.name) {
             case 'Requests':
               iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
               break;
-            case 'My Spots':
-              iconName = focused ? 'pin' : 'pin-outline';
-              break;
             case 'Current Rentals':
               iconName = focused ? 'car' : 'car-outline';
               break;
-            case 'Previous Rentals':
-              iconName = focused ? 'time' : 'time-outline';
-              break;
             case 'Profile':
-              iconName = focused ? 'settings' : 'settings-outline';
+              iconName = focused ? 'person' : 'person-outline';
               break;
             default:
               iconName = 'ellipse';
           }
-
           return <Ionicons name={iconName} size={size + 2} color={color} />;
         },
       })}
@@ -78,19 +66,9 @@ export default function ProviderTabs() {
         options={{ title: 'Forespørgsler' }}
       />
       <Tab.Screen
-        name="My Spots"
-        component={ProviderMySpotsScreen}
-        options={{ title: 'Mine Pladser' }}
-      />
-      <Tab.Screen
         name="Current Rentals"
         component={ProviderCurrentRentalsScreen}
-        options={{ title: 'Aktive Lejemål' }}
-      />
-      <Tab.Screen
-        name="Previous Rentals"
-        component={ProviderRentalsScreen}
-        options={{ title: 'Tidligere Lejemål' }}
+        options={{ title: 'Aktive udlejning' }}
       />
       <Tab.Screen
         name="Profile"

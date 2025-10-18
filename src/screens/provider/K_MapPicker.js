@@ -1,3 +1,5 @@
+// K_MapPicker.js
+
 // Oprettet af K
 // Denne komponent bruges i AddSpotScreen og EditSpotScreen til at vælge adresse på kort.
 // Den viser et MapView med en marker, som kan trækkes rundt, og et søgefelt til adresser.

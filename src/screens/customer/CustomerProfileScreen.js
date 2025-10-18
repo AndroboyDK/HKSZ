@@ -1,3 +1,4 @@
+// src/screens/customer/CustomerProfileScreen.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import styles from '../../styles/styles';
@@ -34,7 +35,17 @@ export default function CustomerProfileScreen() {
       {/* 🔹 Profilkort */}
       {profile ? (
         <View style={styles.card}>
-          <Text style={styles.cardSubtitle}>Navn: {profile.displayName || '-'}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={[styles.cardSubtitle, { fontWeight: '600', fontSize: 16 }]}>
+              {profile.displayName || '-'}
+            </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('CustomerProfileDetails')}
+            >
+              <Ionicons name="create-outline" size={20} color="#1F4E46" />
+            </TouchableOpacity>
+          </View>
+
           <Text style={styles.cardSubtitle}>Email: {profile.email || '-'}</Text>
           <Text style={styles.cardSubtitle}>Telefon: {profile.phone || '-'}</Text>
           <Text style={styles.cardSubtitle}>Bilmodel: {profile.carModel || '-'}</Text>
@@ -43,25 +54,33 @@ export default function CustomerProfileScreen() {
       ) : (
         <Text style={styles.cardSubtitle}>Indlæser profil...</Text>
       )}
+      {/* 🔹 Historik-knap */}
+      <TouchableOpacity
+        style={[styles.secondaryButton, { marginTop: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
+        onPress={() => navigation.navigate('CustomerRentals')}
+      >
+        <Ionicons name="time-outline" size={18} color="#1F4E46" style={{ marginRight: 8 }} />
+        <Text style={styles.secondaryButtonText}>Se tidligere udlejninger</Text>
+      </TouchableOpacity>
 
-      {/* 🔹 Knapper */}
-      <View style={{ marginTop: 24 }}>
-        <TouchableOpacity
-          style={styles.secondaryButton}
-          onPress={() => navigation.navigate('CustomerProfileDetails')}
-        >
-          <Text style={styles.secondaryButtonText}>Rediger profiloplysninger</Text>
-        </TouchableOpacity>
+      {/* 🔹 Skift rolle */}
+      <TouchableOpacity
+        style={[styles.primaryButton, { marginTop: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
+        onPress={toggleRole}
+      >
+        <Ionicons name="swap-horizontal" size={18} color="#fff" style={{ marginRight: 8 }} />
+        <Text style={styles.primaryButtonText}>Skift til Provider View</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.primaryButton, { marginTop: 12 }]} onPress={toggleRole}>
-          <Ionicons name="swap-horizontal" size={18} color="#fff" style={{ marginRight: 8 }} />
-          <Text style={styles.primaryButtonText}>Skift til Provider View</Text>
-        </TouchableOpacity>
+      {/* 🔹 Log ud */}
+      <TouchableOpacity
+        style={[styles.secondaryButton, { marginTop: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }]}
+        onPress={signOut}
+      >
+        <Ionicons name="log-out-outline" size={18} color="#1F4E46" style={{ marginRight: 8 }} />
+        <Text style={styles.secondaryButtonText}>Log ud</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.secondaryButton, { marginTop: 12 }]} onPress={signOut}>
-          <Text style={styles.secondaryButtonText}>Log ud</Text>
-        </TouchableOpacity>
-      </View>
     </ScrollView>
   );
 }
