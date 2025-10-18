@@ -12,61 +12,56 @@ export default function CustomerProfileScreen() {
   const { toggleRole } = useRole();
   const { signOut, user } = useAuth();
   const navigation = useNavigation();
-
   const [profile, setProfile] = useState(null);
 
-  // 🔹 Hent data fra Firestore
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const ref = doc(db, 'users', user.uid);
         const snap = await getDoc(ref);
         if (snap.exists()) setProfile(snap.data());
-      } catch {
-        console.log('Fejl ved hentning af profil');
+      } catch (error) {
+        console.log('Fejl ved hentning af profil:', error);
       }
     };
     if (user) fetchProfile();
   }, [user]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.h1}>Profil</Text>
+    <ScrollView contentContainerStyle={[styles.container, { paddingBottom: 32 }]}>
+      <Text style={[styles.h1, { marginBottom: 16 }]}>Min profil</Text>
 
-      {/* 🔹 Viser brugerdata hvis de findes */}
-      {profile && (
+      {/* 🔹 Profilkort */}
+      {profile ? (
         <View style={styles.card}>
           <Text style={styles.cardSubtitle}>Navn: {profile.displayName || '-'}</Text>
+          <Text style={styles.cardSubtitle}>Email: {profile.email || '-'}</Text>
           <Text style={styles.cardSubtitle}>Telefon: {profile.phone || '-'}</Text>
-          <Text style={styles.cardSubtitle}>Bil: {profile.vehicleReg || '-'}</Text>
+          <Text style={styles.cardSubtitle}>Bilmodel: {profile.carModel || '-'}</Text>
+          <Text style={styles.cardSubtitle}>Nummerplade: {profile.licensePlate || '-'}</Text>
         </View>
+      ) : (
+        <Text style={styles.cardSubtitle}>Indlæser profil...</Text>
       )}
 
-      <View style={styles.section}>
-        <Text style={styles.h2}>Valgmuligheder</Text>
-        <View style={styles.list}>
-          <Text style={styles.listItem}>• Profiloplysninger</Text>
-          <Text style={styles.listItem}>• Biloplysninger</Text>
-          <Text style={styles.listItem}>• Betalingsoplysninger</Text>
-        </View>
+      {/* 🔹 Knapper */}
+      <View style={{ marginTop: 24 }}>
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => navigation.navigate('CustomerProfileDetails')}
+        >
+          <Text style={styles.secondaryButtonText}>Rediger profiloplysninger</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.primaryButton, { marginTop: 12 }]} onPress={toggleRole}>
+          <Ionicons name="swap-horizontal" size={18} color="#fff" style={{ marginRight: 8 }} />
+          <Text style={styles.primaryButtonText}>Skift til Provider View</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.secondaryButton, { marginTop: 12 }]} onPress={signOut}>
+          <Text style={styles.secondaryButtonText}>Log ud</Text>
+        </TouchableOpacity>
       </View>
-
-      {/* 🔹 Knap til at redigere oplysninger */}
-      <TouchableOpacity
-        style={styles.secondaryButton}
-        onPress={() => navigation.navigate('CustomerProfileDetails')}
-      >
-        <Text style={styles.secondaryButtonText}>Rediger profiloplysninger</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.primaryButton} onPress={toggleRole}>
-        <Ionicons name="swap-horizontal" size={18} color="#fff" style={{ marginRight: 8 }} />
-        <Text style={styles.primaryButtonText}>Skift til Provider View</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.secondaryButton} onPress={signOut}>
-        <Text style={styles.secondaryButtonText}>Log ud</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 }
