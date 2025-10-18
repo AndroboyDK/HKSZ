@@ -1,92 +1,75 @@
-// CustomerTabs.js
-// Redesignet navigationslinje med brandede farver og moderne ikonlogik
+// src/navigation/CustomerTabs.js
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import KundeProfilSkærm from '../screens/customer/CustomerProfileScreen';
+import FindParkeringSkærm from '../screens/customer/FindParkingScreen';
+import AktivUdlejningSkærm from '../screens/customer/CustomerActiveRentalScreen';
 import { Ionicons } from '@expo/vector-icons';
-import { Platform } from 'react-native';
-
-
-// Skærme
-import CustomerProfileScreen from '../screens/customer/CustomerProfileScreen';
-import CustomerRentalsScreen from '../screens/customer/CustomerRentalsScreen';
-import FindParkingScreen from '../screens/customer/FindParkingScreen';
-import CustomerActiveRentalScreen from '../screens/customer/CustomerActiveRentalScreen';
+import { db } from '../lib/firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { useAuth } from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
 export default function CustomerTabs() {
+  const { user } = useAuth();
+  const [harAktivUdlejning, setHarAktivUdlejning] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    const q = query(
+      collection(db, 'rentals'),
+      where('customerUid', '==', user.uid),
+      where('status', '==', 'active')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setHarAktivUdlejning(!snapshot.empty);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: true,
-        headerStyle: {
-          backgroundColor: '#FFFFFF',
-          borderBottomWidth: 1,
-          borderBottomColor: '#DCEFE2',
-        },
-        headerTitleAlign: 'center',
-        headerTintColor: '#1F4E46',
-        headerTitleStyle: { fontWeight: '700', fontSize: 18 },
-        tabBarStyle: {
-          backgroundColor: '#FFFFFF',
-          borderTopWidth: 1,
-          borderTopColor: '#DCEFE2',
-          height: 80, // ⬅️ slightly shorter
-          paddingBottom: Platform.OS === 'ios' ? 10 : 6, // dynamic for notch/home indicator
-          paddingTop: 4,
-        },
-        tabBarActiveTintColor: '#1F4E46', // 🌿 Deep brand green
-        tabBarInactiveTintColor: '#9EB7AA', // Muted soft green
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-          marginBottom: 4,
-        },
-
-        // Dynamisk ikonvalg baseret på route
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          switch (route.name) {
-            case 'Find Parking':
-              iconName = focused ? 'map' : 'map-outline';
-              break;
-            case 'Active Rental':
-              iconName = focused ? 'car' : 'car-outline';
-              break;
-            case 'Previous Rentals':
-              iconName = focused ? 'time' : 'time-outline';
-              break;
-            case 'Profile':
-              iconName = focused ? 'person' : 'person-outline';
-              break;
-            default:
-              iconName = 'ellipse';
-          }
-
-          return <Ionicons name={iconName} size={size + 2} color={color} />;
+          let ikon = 'ellipse';
+          if (route.name === 'Find parkering') ikon = focused ? 'map' : 'map-outline';
+          if (route.name === 'Aktiv parkering') ikon = focused ? 'car' : 'car-outline';
+          if (route.name === 'Profil') ikon = focused ? 'person' : 'person-outline';
+          return <Ionicons name={ikon} size={size} color={color} />;
         },
+        tabBarActiveTintColor: '#1F4E46',
+        tabBarInactiveTintColor: 'gray',
+        tabBarStyle: {
+          paddingBottom: 4,
+          height: 60,
+          backgroundColor: '#F4FAF6',
+        },
+        headerStyle: { backgroundColor: '#F4FAF6' },
+        headerTitleStyle: { color: '#1F4E46', fontWeight: '600' },
       })}
     >
+      {!harAktivUdlejning ? (
+        <Tab.Screen
+          name="Find parkering"
+          component={FindParkeringSkærm}
+          options={{ title: 'Find parkering' }}
+        />
+      ) : (
+        <Tab.Screen
+          name="Aktiv parkering"
+          component={AktivUdlejningSkærm}
+          options={{ title: 'Aktiv parkering' }}
+        />
+      )}
+
       <Tab.Screen
-        name="Find Parking"
-        component={FindParkingScreen}
-        options={{ title: 'Find Plads' }}
-      />
-      <Tab.Screen
-        name="Active Rental"
-        component={CustomerActiveRentalScreen}
-        options={{ title: 'Aktiv Leje' }}
-      />
-      <Tab.Screen
-        name="Previous Rentals"
-        component={CustomerRentalsScreen}
-        options={{ title: 'Tidligere Lejemål' }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={CustomerProfileScreen}
+        name="Profil"
+        component={KundeProfilSkærm}
         options={{ title: 'Profil' }}
       />
     </Tab.Navigator>

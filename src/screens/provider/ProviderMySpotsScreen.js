@@ -1,3 +1,6 @@
+// src/screens/provider/ProviderMySpotsScreen.js
+// Dansk version – oversigt over udlejerens parkeringspladser
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import styles from '../../styles/styles';
@@ -23,24 +26,31 @@ export default function ProviderMySpotsScreen() {
   }, [user]);
 
   const confirmDelete = (spot) => {
-    Alert.alert('Delete spot', `Delete "${spot.title}"?`, [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Delete', style: 'destructive', onPress: () => deleteSpot(spot) },
-    ]);
+    Alert.alert(
+      'Slet parkeringsplads',
+      `Er du sikker på, at du vil slette "${spot.title}"?`,
+      [
+        { text: 'Annuller', style: 'cancel' },
+        { text: 'Slet', style: 'destructive', onPress: () => deleteSpot(spot) },
+      ]
+    );
   };
 
   const deleteSpot = async (spot) => {
     try {
-      // Guard: block delete if there is an active rental for this spot
-      const act = await getDocs(query(collection(db, 'rentals'), where('spotId', '==', spot.id), where('status', '==', 'active')));
+      // 🚫 Bloker sletning, hvis aktiv leje eksisterer
+      const act = await getDocs(
+        query(collection(db, 'rentals'), where('spotId', '==', spot.id), where('status', '==', 'active'))
+      );
       if (!act.empty) {
-        Alert.alert('Blocked', 'Cannot delete: spot has an active rental.');
+        Alert.alert('Blokeret', 'Du kan ikke slette denne plads, da den er i brug.');
         return;
       }
+
       await deleteDoc(doc(db, 'spots', spot.id));
-      Alert.alert('Deleted', 'Spot removed.');
+      Alert.alert('Slettet', 'Parkeringspladsen er fjernet.');
     } catch (e) {
-      Alert.alert('Error', e.message || 'Failed to delete');
+      Alert.alert('Fejl', e.message || 'Kunne ikke slette parkeringspladsen.');
     }
   };
 
@@ -50,38 +60,39 @@ export default function ProviderMySpotsScreen() {
         data={rows}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={
-          <View>
-            <Text style={styles.h1}>My Spots</Text>
+          <View style={{ marginBottom: 16 }}>
+            <Text style={styles.h1}>Mine parkeringspladser</Text>
             <TouchableOpacity
               style={styles.primaryButton}
               onPress={() => navigation.navigate('AddSpot')}
             >
-              <Text style={styles.primaryButtonText}>Add Spot</Text>
+              <Text style={styles.primaryButtonText}>Tilføj ny plads</Text>
             </TouchableOpacity>
           </View>
         }
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         contentContainerStyle={styles.listContent}
-        ListEmptyComponent={<Text style={styles.cardSubtitle}>No spots yet.</Text>}
+        ListEmptyComponent={<Text style={styles.cardSubtitle}>Ingen parkeringspladser endnu.</Text>}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <Text style={styles.cardTitle}>{item.title}</Text>
             <Text style={styles.cardSubtitle}>{item.address}</Text>
             <Text style={styles.cardSubtitle}>
-              {item.isAvailable ? 'Available' : 'Unavailable'} • {item.pricePerHour} kr/t
+              {item.isAvailable ? '🟢 Tilgængelig' : '🔴 Ikke tilgængelig'} • {item.pricePerHour} kr/t
             </Text>
-            <View style={styles.row}>
+
+            <View style={[styles.row, { marginTop: 12 }]}>
               <TouchableOpacity
                 style={styles.primaryButtonSmall}
                 onPress={() => navigation.navigate('EditSpot', { spotId: item.id })}
               >
-                <Text style={styles.primaryButtonText}>Edit</Text>
+                <Text style={styles.primaryButtonText}>Redigér</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.secondaryButtonSmall}
                 onPress={() => confirmDelete(item)}
               >
-                <Text style={styles.secondaryButtonText}>Delete</Text>
+                <Text style={styles.secondaryButtonText}>Slet</Text>
               </TouchableOpacity>
             </View>
           </View>

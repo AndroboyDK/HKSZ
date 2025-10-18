@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 12,
+        flexDirection: 'row',
     },
     secondaryButtonSmall: {
         backgroundColor: '#C6E7C8',
