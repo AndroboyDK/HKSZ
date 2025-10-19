@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import KundeProfilSkærm from '../screens/customer/CustomerProfileScreen';
-import FindParkeringSkærm from '../screens/customer/FindParkingScreen';
+import FindParkeringSkærm from '../screens/customer/K_FindParkingScreen';
 import AktivUdlejningSkærm from '../screens/customer/CustomerActiveRentalScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../lib/firebase';
