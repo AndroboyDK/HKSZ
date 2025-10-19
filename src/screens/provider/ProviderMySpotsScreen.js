@@ -2,7 +2,7 @@
 // Dansk version – oversigt over udlejerens parkeringspladser
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import styles from '../../styles/styles';
 import { useAuth } from '../../context/AuthContext';
 import { db } from '../../lib/firebase';
@@ -75,12 +75,42 @@ export default function ProviderMySpotsScreen() {
         ListEmptyComponent={<Text style={styles.cardSubtitle}>Ingen parkeringspladser endnu.</Text>}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Text style={styles.cardTitle}>{item.title}</Text>
-            <Text style={styles.cardSubtitle}>{item.address}</Text>
+            {/* 🔹 Image Preview */}
+            {item.imageUrl ? (
+              <Image
+                source={{ uri: item.imageUrl }}
+                style={{
+                  width: '100%',
+                  height: 160,
+                  borderRadius: 10,
+                  marginBottom: 10,
+                }}
+              />
+            ) : (
+              <View
+                style={{
+                  width: '100%',
+                  height: 160,
+                  borderRadius: 10,
+                  backgroundColor: '#DCEFE2',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: 10,
+                }}
+              >
+                <Text style={{ color: '#1F4E46', fontWeight: '500' }}>Intet billede</Text>
+              </View>
+            )}
+
+            {/* 🔹 Text Info */}
+            <Text style={styles.cardTitle}>{item.title || 'Parkeringsplads'}</Text>
+            <Text style={styles.cardSubtitle}>{item.address || 'Adresse ikke angivet'}</Text>
             <Text style={styles.cardSubtitle}>
-              {item.isAvailable ? '🟢 Tilgængelig' : '🔴 Ikke tilgængelig'} • {item.pricePerHour} kr/t
+              {item.isAvailable ? '🟢 Tilgængelig' : '🔴 Ikke tilgængelig'} •{' '}
+              {item.pricePerHour ?? '-'} kr/t
             </Text>
 
+            {/* 🔹 Action Buttons */}
             <View style={[styles.row, { marginTop: 12 }]}>
               <TouchableOpacity
                 style={styles.primaryButtonSmall}
