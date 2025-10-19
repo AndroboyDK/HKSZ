@@ -15,7 +15,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Vi bruger din placering til at vælge parkeringsplads."
-      }
+      },
+      "bundleIdentifier": "com.anonymous.HoldMySpot"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,8 @@
         "resizeMode": "contain",
         "backgroundColor": "#E9F5EC"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.HoldMySpot"
     },
     "web": {
       "favicon": "./assets/favicon.png"
