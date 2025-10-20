@@ -85,10 +85,12 @@ Når appen er startet i Expo, kan du oprette en bruger via login-skærmen og der
 
 Projektansvarlige
 
-Zedan – Alt andet :)
+Zedan – har arbejdet på mange af de andre skærme 
 
-Kenneth – MapPicker og SpotForms
+Kenneth – MapPicker og SpotForms (K_MapPicker og K_MapPicker)
 
-Habib – Brugerprofiler (kunde og udlejer)
+Habib – Brugerprofiler (for kunde er det deres almindelig info og for udlejer er det deres udbetalingsoplysninger) (H_ProviderPayoutScreen og H_CustomerProfileScreen)
 
-Suzan – Bookingflow (tid og opsummering)
+Suzan – Bookingflow (tid og opsummering) (S_RequestSummaryScreen og S_RequestTimeScreen)
+
+Samlet set er vi langt med vores app - det næste bliver at gøre den mere brugervenlig som det vil fremgå i nogle af vores opgaver. 
