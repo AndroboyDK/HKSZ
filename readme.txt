@@ -87,7 +87,7 @@ Projektansvarlige
 
 Zedan – har arbejdet på mange af de andre skærme 
 
-Kenneth – MapPicker og SpotForms (K_MapPicker og K_MapPicker)
+Kenneth – MapPicker og SpotForms (K_MapPicker og K_FindParkingScreen)
 
 Habib – Brugerprofiler (for kunde er det deres almindelig info og for udlejer er det deres udbetalingsoplysninger) (H_ProviderPayoutScreen og H_CustomerProfileScreen)
 
