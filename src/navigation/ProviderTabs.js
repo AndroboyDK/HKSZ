@@ -18,11 +18,7 @@ export default function ProviderTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: true,
-        headerStyle: {
-          backgroundColor: '#FFFFFF',
-          borderBottomWidth: 1,
-          borderBottomColor: '#DCEFE2',
-        },
+        headerStyle: { backgroundColor: '#FFFFFF', borderBottomWidth: 1, borderBottomColor: '#DCEFE2' },
         headerTitleAlign: 'center',
         headerTintColor: '#1F4E46',
         headerTitleStyle: { fontWeight: '700', fontSize: 18 },
@@ -30,51 +26,89 @@ export default function ProviderTabs() {
           backgroundColor: '#FFFFFF',
           borderTopWidth: 1,
           borderTopColor: '#DCEFE2',
-          height: 70,
-          paddingBottom: Platform.OS === 'ios' ? 10 : 6,
-          paddingTop: 4,
+          paddingBottom: 4,
+          height: 80,
         },
         tabBarActiveTintColor: '#1F4E46',
         tabBarInactiveTintColor: '#9EB7AA',
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-          marginBottom: 4,
-        },
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
+        tabBarIcon: ({ focused, color }) => {
           let iconName;
           switch (route.name) {
-            case 'Requests':
-              iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
-              break;
-            case 'Current Rentals':
-              iconName = focused ? 'car' : 'car-outline';
-              break;
-            case 'Profile':
-              iconName = focused ? 'person' : 'person-outline';
-              break;
-            default:
-              iconName = 'ellipse';
+            case 'Foresp.': iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'; break;
+            case 'Aktiv': iconName = focused ? 'car' : 'car-outline'; break;
+            case 'Profil': iconName = focused ? 'settings' : 'settings-outline'; break;
+            default: iconName = 'ellipse';
           }
-          return <Ionicons name={iconName} size={size + 2} color={color} />;
+          return <Ionicons name={iconName} size={30} color={color} />;
         },
       })}
     >
-      <Tab.Screen
-        name="Requests"
-        component={RequestsScreen}
-        options={{ title: 'Forespørgsler' }}
-      />
-      <Tab.Screen
-        name="Current Rentals"
-        component={ProviderCurrentRentalsScreen}
-        options={{ title: 'Aktive udlejning' }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProviderProfileScreen}
-        options={{ title: 'Profil' }}
-      />
+      <Tab.Screen name="Foresp." component={RequestsScreen} options={{ title: 'Foresp.' }} />
+      <Tab.Screen name="Aktiv" component={ProviderCurrentRentalsScreen} options={{ title: 'Aktiv' }} />
+      <Tab.Screen name="Profil" component={ProviderProfileScreen} options={{ title: 'Profil' }} />
     </Tab.Navigator>
+
+    // <Tab.Navigator
+    //   screenOptions={({ route }) => ({
+    //     headerShown: true,
+    //     headerStyle: {
+    //       backgroundColor: '#FFFFFF',
+    //       borderBottomWidth: 1,
+    //       borderBottomColor: '#DCEFE2',
+    //     },
+    //     headerTitleAlign: 'center',
+    //     headerTintColor: '#1F4E46',
+    //     headerTitleStyle: { fontWeight: '700', fontSize: 18 },
+    //     tabBarStyle: {
+    //       backgroundColor: '#FFFFFF',
+    //       borderTopWidth: 1,
+    //       borderTopColor: '#DCEFE2',
+    //       height: 70,
+    //       paddingBottom: Platform.OS === 'ios' ? 10 : 6,
+    //       paddingTop: 4,
+    //     },
+    //     tabBarActiveTintColor: '#1F4E46',
+    //     tabBarInactiveTintColor: '#9EB7AA',
+    //     tabBarLabelStyle: {
+    //       fontSize: 12,
+    //       fontWeight: '600',
+    //       marginBottom: 4,
+    //     },
+    //     tabBarIcon: ({ focused, color, size }) => {
+    //       let iconName;
+    //       switch (route.name) {
+    //         case 'Requests':
+    //           iconName = focused ? 'chatbubbles' : 'chatbubbles-outline';
+    //           break;
+    //         case 'Current Rentals':
+    //           iconName = focused ? 'car' : 'car-outline';
+    //           break;
+    //         case 'Profile':
+    //           iconName = focused ? 'person' : 'person-outline';
+    //           break;
+    //         default:
+    //           iconName = 'ellipse';
+    //       }
+    //       return <Ionicons name={iconName} size={size + 2} color={color} />;
+    //     },
+    //   })}
+    // >
+    //   <Tab.Screen
+    //     name="Requests"
+    //     component={RequestsScreen}
+    //     options={{ title: 'Forespørgsler' }}
+    //   />
+    //   <Tab.Screen
+    //     name="Current Rentals"
+    //     component={ProviderCurrentRentalsScreen}
+    //     options={{ title: 'Aktive udlejning' }}
+    //   />
+    //   <Tab.Screen
+    //     name="Profile"
+    //     component={ProviderProfileScreen}
+    //     options={{ title: 'Profil' }}
+    //   />
+    // </Tab.Navigator>
   );
 }

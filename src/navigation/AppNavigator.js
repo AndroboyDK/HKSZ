@@ -19,13 +19,15 @@ import RequestDetailsScreen from '../screens/provider/RequestDetailsScreen';
 import SpotDetailsScreen from '../screens/customer/SpotDetailsScreen';
 import AddSpotScreen from '../screens/provider/AddSpotScreen';
 import EditSpotScreen from '../screens/provider/EditSpotScreen';
-import S_RequestTimeScreen from '../screens/customer/S_RequestTimeScreen';
-import S_RequestSummaryScreen from '../screens/customer/S_RequestSummaryScreen';
-import H_CustomerProfileScreen from '../screens/customer/H_CustomerProfileScreen';
-import H_ProviderPayoutScreen from '../screens/provider/H_ProviderPayoutScreen';
+import RequestTimeScreen from '../screens/customer/RequestTimeScreen';
+import RequestSummaryScreen from '../screens/customer/RequestSummaryScreen';
+import CustomerProfileScreenEdit from '../screens/customer/CustomerProfileScreenEdit';
+import ProviderPayoutScreen from '../screens/provider/ProviderPayoutScreen';
 import CustomerRentalsScreen from '../screens/customer/CustomerRentalsScreen';
 import ProviderRentalsScreen from '../screens/provider/ProviderRentalsScreen';
 import ProviderMySpotsScreen from '../screens/provider/ProviderMySpotsScreen';
+import RateUserScreen from '../screens/shared/RateUserScreen';
+
 
 
 
@@ -108,23 +110,28 @@ export default function AppNavigator() {
           options={{ title: 'Parkeringsplads' }}
         />
         <Stack.Screen
+          name="RateUser"
+          component={RateUserScreen}
+          options={{ title: 'Bedøm' }}
+        />
+        <Stack.Screen
           name="AddSpot"
           component={AddSpotScreen}
-          options={{ title: 'Opret parkeringsplads' }}
+          options={{ title: 'Opret spot' }}
         />
         <Stack.Screen
           name="EditSpot"
           component={EditSpotScreen}
-          options={{ title: 'Rediger parkeringsplads' }}
+          options={{ title: 'Rediger spot' }}
         />
         <Stack.Screen
           name="RequestTime"
-          component={S_RequestTimeScreen}
+          component={RequestTimeScreen}
           options={{ title: 'Vælg tidspunkt' }}
         />
         <Stack.Screen
           name="RequestSummary"
-          component={S_RequestSummaryScreen}
+          component={RequestSummaryScreen}
           options={{ title: 'Opsummering' }}
         />
 
@@ -141,7 +148,7 @@ export default function AppNavigator() {
         <Stack.Screen
           name="ProviderMySpots"
           component={ProviderMySpotsScreen}
-          options={{ title: 'Mine parkeringspladser' }}
+          options={{ title: 'Mine spots' }}
         />
 
 
@@ -150,12 +157,12 @@ export default function AppNavigator() {
         {/* H-skærme */}
         <Stack.Screen
           name="CustomerProfileDetails"
-          component={H_CustomerProfileScreen}
+          component={CustomerProfileScreenEdit}
           options={{ title: 'Profiloplysninger' }}
         />
         <Stack.Screen
           name="ProviderPayout"
-          component={H_ProviderPayoutScreen}
+          component={ProviderPayoutScreen}
           options={{ title: 'Udbetalingsoplysninger' }}
         />
       </Stack.Navigator>

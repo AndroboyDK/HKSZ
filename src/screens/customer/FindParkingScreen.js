@@ -1,4 +1,6 @@
-// Lavet komplet om af Kenneth – med forbedringer til data og UX (Zedan 2025)
+// src/screens/customer/FindParkingScreen.js
+
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Dimensions, ActivityIndicator, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
@@ -103,12 +105,12 @@ export default function FindParkingScreen() {
         >
           <Ionicons
             name={viewMode === 'map' ? 'list-outline' : 'map-outline'}
-            size={18}
+            size={30}
             color="#1F4E46"
             style={{ marginRight: 8 }}
           />
           <Text style={styles.secondaryButtonText}>
-            Skift til {viewMode === 'map' ? 'listevisning' : 'kortvisning'}
+            {viewMode === 'map' ? 'Listevisning' : 'Kortvisning'}?
           </Text>
         </TouchableOpacity>
 

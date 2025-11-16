@@ -64,7 +64,7 @@ export default function ParkingCard({ item, onPress }) {
 
       <Text
         style={[styles.cardSubtitle, { marginTop: 4 }]}
-        numberOfLines={1}
+        numberOfLines={2}
         ellipsizeMode="tail"
       >
         {item.address || 'Adresse ikke angivet'}

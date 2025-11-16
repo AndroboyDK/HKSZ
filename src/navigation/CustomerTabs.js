@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import KundeProfilSkærm from '../screens/customer/CustomerProfileScreen';
-import FindParkeringSkærm from '../screens/customer/K_FindParkingScreen';
+import FindParkeringSkærm from '../screens/customer/FindParkingScreen';
 import AktivUdlejningSkærm from '../screens/customer/CustomerActiveRentalScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../lib/firebase';
@@ -40,15 +40,18 @@ export default function CustomerTabs() {
           if (route.name === 'Find parkering') ikon = focused ? 'map' : 'map-outline';
           if (route.name === 'Aktiv parkering') ikon = focused ? 'car' : 'car-outline';
           if (route.name === 'Profil') ikon = focused ? 'person' : 'person-outline';
-          return <Ionicons name={ikon} size={size} color={color} />;
+          return <Ionicons name={ikon} size={30} color={color} />; // bigger icon
         },
         tabBarActiveTintColor: '#1F4E46',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
           paddingBottom: 4,
-          height: 60,
+          height: 80,
           backgroundColor: '#F4FAF6',
+          borderTopColor: '#DCEFE2',
+          borderTopWidth: 1,
         },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
         headerStyle: { backgroundColor: '#F4FAF6' },
         headerTitleStyle: { color: '#1F4E46', fontWeight: '600' },
       })}
@@ -57,13 +60,13 @@ export default function CustomerTabs() {
         <Tab.Screen
           name="Find parkering"
           component={FindParkeringSkærm}
-          options={{ title: 'Find parkering' }}
+          options={{ title: 'Find' }}
         />
       ) : (
         <Tab.Screen
           name="Aktiv parkering"
           component={AktivUdlejningSkærm}
-          options={{ title: 'Aktiv parkering' }}
+          options={{ title: 'Aktiv ' }}
         />
       )}
 

@@ -1,9 +1,76 @@
 import { StyleSheet } from 'react-native';
 
+
+
+export const COLORS = {
+    brand: '#1F4E46',
+    text: '#102420',
+    bg: '#E9F5EC',
+    border: '#DCEFE2',
+    muted: '#345a52',
+    danger: '#B3261E',
+    success: '#2E7D32',
+};
+
 const styles = StyleSheet.create({
     container: { flexGrow: 1, padding: 16, backgroundColor: '#E9F5EC' },
     containerList: { flex: 1, backgroundColor: '#E9F5EC' },
     section: { padding: 16 },
+
+    iconMd: { fontSize: 24 },
+    iconLg: { fontSize: 30 }, // use for tab icons
+
+    chip: {
+        alignSelf: 'flex-start',
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        borderRadius: 999,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        backgroundColor: '#fff',
+    },
+
+    chipRow: { flexDirection: 'row', gap: 8, marginTop: 8 },
+
+    imageFallback: {
+        width: '100%',
+        height: 160,
+        backgroundColor: '#F4FAF6',
+        borderRadius: 12,
+        borderColor: COLORS.border,
+        borderWidth: 1,
+    },
+
+    // tighter vertical rhythm
+    h1: { fontSize: 22, fontWeight: '700', color: COLORS.brand, marginBottom: 10 },
+    cardTitle: { fontSize: 16, fontWeight: '700', color: COLORS.text, marginBottom: 4 },
+    cardSubtitle: { fontSize: 13, color: COLORS.muted, marginBottom: 3 },
+
+
+    chipButton: {
+        paddingVertical: 8,
+        paddingHorizontal: 14,
+        borderRadius: 999,
+        borderWidth: 1,
+        borderColor: '#DCEFE2',
+    },
+    chipButtonText: {
+        fontWeight: '600',
+    },
+
+    // Inline banner (permissions, etc.)
+    banner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 10,
+        borderRadius: 12,
+        backgroundColor: '#FFF8E1',
+        borderWidth: 1,
+        borderColor: '#FFE9B2',
+        marginBottom: 12,
+    },
+    bannerText: { color: '#7A4E00', flex: 1, marginLeft: 8 },
+    bannerAction: { color: COLORS.brand, fontWeight: '700' },
 
     // Typography
     h1: { fontSize: 26, fontWeight: '700', color: '#102420', marginBottom: 12 },
@@ -97,8 +164,9 @@ const styles = StyleSheet.create({
 
     //Til authcontainer: 
     authLogo: {
-        width: 120,
-        height: 120,
+        // increased 20% from 120 -> 144
+        width: 144,
+        height: 144,
         marginBottom: 20,
     },
     authCard: {
@@ -121,6 +189,10 @@ const styles = StyleSheet.create({
         marginBottom: 24,
     },
 
+    // Generic icon scale (apply where icon components use this style)
+    icon: {
+        transform: [{ scale: 1.2 }],
+    },
 
     // Layout Helpers
     row: { flexDirection: 'row', marginTop: 8 },

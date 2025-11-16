@@ -2,7 +2,17 @@
 // Dansk version – opret ny parkeringsplads med billedupload
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, Switch, ScrollView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Switch,
+  ScrollView,
+  Image,
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import styles from '../../styles/styles';
 import { useAuth } from '../../context/AuthContext';
 import { db, storage } from '../../lib/firebase';
@@ -10,7 +20,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import * as ImagePicker from 'expo-image-picker';
 import { isNonEmpty, isAddress, toNumberSafe, isLat, isLng, isPrice } from '../../utils/validate';
-import K_MapPicker from './K_MapPicker';
+import MapPicker from './MapPicker';
 
 export default function AddSpotScreen({ navigation }) {
   const { user } = useAuth();
@@ -82,16 +92,32 @@ export default function AddSpotScreen({ navigation }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.h1}>Tilføj parkeringsplads</Text>
+    <ScrollView contentContainerStyle={[styles.container, { paddingBottom: 40 }]}>
+      <Text style={styles.h1}>Ny spot</Text>
+      <Text style={[styles.cardSubtitle, { marginTop: 4, marginBottom: 16 }]}>
+        Udfyld info om din spot og tilføj evt. et billede. Du kan altid redigere senere.
+      </Text>
 
+      {/* Titel */}
       <Text style={styles.inputLabel}>Titel</Text>
-      <TextInput style={styles.input} value={title} onChangeText={setTitle} placeholder="F.eks. Indkørsel på Amager" />
+      <TextInput
+        style={styles.input}
+        value={title}
+        onChangeText={setTitle}
+        placeholder="F.eks. Indkørsel på Amager"
+      />
 
+      {/* Adresse */}
       <Text style={styles.inputLabel}>Adresse</Text>
-      <TextInput style={styles.input} value={address} onChangeText={setAddress} placeholder="F.eks. Dalslandsgade 8F, 2300 København S" />
+      <TextInput
+        style={styles.input}
+        value={address}
+        onChangeText={setAddress}
+        placeholder="F.eks. Dalslandsgade 8F, 2300 København S"
+      />
 
-      <K_MapPicker
+      {/* Kort / lokation */}
+      <MapPicker
         value={{ lat: parseFloat(lat) || 55.6761, lng: parseFloat(lng) || 12.5683, address }}
         onChange={({ lat, lng, address }) => {
           setLat(lat.toString());
@@ -100,6 +126,7 @@ export default function AddSpotScreen({ navigation }) {
         }}
       />
 
+      {/* Pris */}
       <Text style={styles.inputLabel}>Pris pr. time (kr)</Text>
       <TextInput
         style={styles.input}
@@ -109,28 +136,56 @@ export default function AddSpotScreen({ navigation }) {
         placeholder="F.eks. 25"
       />
 
-      <Text style={styles.h3}>MAKS ET BILLEDE PR BRUGER - BRUGER PENGE!</Text>
-      {/* 📸 Billede */}
-      <TouchableOpacity style={[styles.secondaryButton, { marginTop: 16 }]} onPress={pickImage}>
-        <Text style={styles.secondaryButtonText}>
-          {image ? 'Skift billede' : 'Tilføj billede'}
-        </Text>
-      </TouchableOpacity>
-
-      {image && (
-        <Image
-          source={{ uri: image }}
-          style={{ width: '100%', height: 200, borderRadius: 10, marginTop: 12 }}
-        />
-      )}
-
+      {/* Tilgængelig */}
       <View style={[styles.row, { alignItems: 'center', marginTop: 12 }]}>
-        <Text style={{ marginRight: 12 }}>Tilgængelig</Text>
+        <Text style={{ marginRight: 12 }}>Aktiv nu</Text>
         <Switch value={isAvailable} onValueChange={setIsAvailable} />
       </View>
 
-      <TouchableOpacity style={styles.primaryButton} onPress={submit} disabled={busy}>
-        <Text style={styles.primaryButtonText}>{busy ? 'Gemmer…' : 'Gem parkeringsplads'}</Text>
+      {/* Billede-sektion */}
+      <View style={{ marginTop: 20 }}>
+        <Text style={styles.inputLabel}>Billede (valgfrit)</Text>
+        <Text style={[styles.cardSubtitle, { fontSize: 12, marginBottom: 6 }]}>
+          For at holde omkostningerne nede understøtter vi pt. ét billede pr. spot.
+        </Text>
+
+        <TouchableOpacity
+          style={[styles.secondaryButton, { flexDirection: 'row', alignItems: 'center' }]}
+          onPress={pickImage}
+        >
+          <Ionicons
+            name={image ? 'image-outline' : 'add-circle-outline'}
+            size={18}
+            color="#1F4E46"
+            style={{ marginRight: 8 }}
+          />
+          <Text style={styles.secondaryButtonText}>
+            {image ? 'Skift billede' : 'Tilføj billede'}
+          </Text>
+        </TouchableOpacity>
+
+        {image && (
+          <Image
+            source={{ uri: image }}
+            style={{
+              width: '100%',
+              height: 200,
+              borderRadius: 10,
+              marginTop: 12,
+            }}
+          />
+        )}
+      </View>
+
+      {/* Gem-knap */}
+      <TouchableOpacity
+        style={[styles.primaryButton, { marginTop: 24 }]}
+        onPress={submit}
+        disabled={busy}
+      >
+        <Text style={styles.primaryButtonText}>
+          {busy ? 'Gemmer…' : 'Gem spot!'}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

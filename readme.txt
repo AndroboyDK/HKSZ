@@ -83,14 +83,4 @@ Kørsel af demo
 
 Når appen er startet i Expo, kan du oprette en bruger via login-skærmen og derefter navigere mellem de forskellige faner. Alle data gemmes i Firestore, så du kan se ændringer i realtid mellem kunde- og udlejervisning.
 
-Projektansvarlige
-
-Zedan – har arbejdet på mange af de andre skærme 
-
-Kenneth – MapPicker og SpotForms (K_MapPicker og K_FindParkingScreen)
-
-Habib – Brugerprofiler (for kunde er det deres almindelig info og for udlejer er det deres udbetalingsoplysninger) (H_ProviderPayoutScreen og H_CustomerProfileScreen)
-
-Suzan – Bookingflow (tid og opsummering) (S_RequestSummaryScreen og S_RequestTimeScreen)
-
 Samlet set er vi langt med vores app - det næste bliver at gøre den mere brugervenlig som det vil fremgå i nogle af vores opgaver. 

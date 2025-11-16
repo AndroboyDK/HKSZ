@@ -1,4 +1,4 @@
-// src/screens/customer/H_CustomerProfileScreen.js
+// src/screens/customer/CustomerProfileScreenEdit.js
 // Dansk version – kundens profil med redigering
 
 import React, { useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import styles from '../../styles/styles';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 
-export default function H_CustomerProfileScreen() {
+export default function CustomerProfileScreenEdit() {
   const { user, signOut } = useAuth();
   const navigation = useNavigation();
 
@@ -75,7 +75,7 @@ export default function H_CustomerProfileScreen() {
         style={styles.input}
         value={displayName}
         onChangeText={setDisplayName}
-        placeholder="F.eks. Zedan Hejaz"
+        placeholder="F.eks. Mette Hansen"
       />
 
       <Text style={styles.inputLabel}>Telefonnummer</Text>
@@ -84,7 +84,7 @@ export default function H_CustomerProfileScreen() {
         value={phone}
         onChangeText={setPhone}
         keyboardType="phone-pad"
-        placeholder="F.eks. 42224506"
+        placeholder="F.eks. 42202226"
       />
 
       <Text style={styles.inputLabel}>Bilmodel</Text>

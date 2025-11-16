@@ -1,22 +1,21 @@
-// H_ProviderPayoutScreen.js
-
-// Oprettet af H
-// Opgave: Lav en skærm hvor udlejeren kan indtaste sine udbetalingsoplysninger.
+// ProviderPayoutScreen.js
 
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, Alert, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import styles from '../../styles/styles';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 
-export default function H_ProviderPayoutScreen() {
+export default function ProviderPayoutScreen() {
   const { user } = useAuth();
   const navigation = useNavigation();
 
   const [iban, setIban] = useState('');
   const [name, setName] = useState('');
+  const [busy, setBusy] = useState(false);
 
   // Hent eksisterende payout-data
   useEffect(() => {
@@ -37,7 +36,7 @@ export default function H_ProviderPayoutScreen() {
           );
         }
       } catch {
-        Alert.alert('Fejl', 'Kunne ikke hente data.');
+        Alert.alert('Fejl', 'Kunne ikke hente udbetalingsdata.');
       }
     })();
   }, [user]);
@@ -51,6 +50,7 @@ export default function H_ProviderPayoutScreen() {
     }
 
     try {
+      setBusy(true);
       const ref = doc(db, 'users', user.uid);
       await setDoc(
         ref,
@@ -65,23 +65,48 @@ export default function H_ProviderPayoutScreen() {
       );
 
       Alert.alert('Gemt', 'Udbetalingsoplysninger er gemt.', [
-        { text: 'OK', onPress: () => navigation.goBack() }, // 👈 Redirect tilbage
+        { text: 'OK', onPress: () => navigation.goBack() },
       ]);
     } catch {
       Alert.alert('Fejl', 'Kunne ikke gemme data.');
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.h1}>Udbetalingsoplysninger</Text>
+    <ScrollView contentContainerStyle={[styles.container, { paddingBottom: 40 }]}>
+      <Text style={styles.h1}>Udbetaling</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: 12,
+          borderRadius: 12,
+          backgroundColor: '#E5F3EB',
+          alignItems: 'flex-start',
+          marginBottom: 16,
+        }}
+      >
+        <Ionicons
+          name="shield-checkmark-outline"
+          size={20}
+          color="#1F4E46"
+          style={{ marginRight: 8, marginTop: 2 }}
+        />
+        <Text style={[styles.cardSubtitle, { flex: 1 }]}>
+          Vi bruger dine oplysninger til at kunne udbetale din indtjening. Du kan ændre dem når som helst.
+        </Text>
+      </View>
 
+      <Text style={styles.inputLabel}>Kontonavn</Text>
       <TextInput
-        placeholder="Kontonavn"
+        placeholder="Navn på kontoindehaver"
         value={name}
         onChangeText={setName}
         style={styles.input}
       />
+
+      <Text style={styles.inputLabel}>IBAN</Text>
       <TextInput
         placeholder="IBAN"
         autoCapitalize="characters"
@@ -90,8 +115,14 @@ export default function H_ProviderPayoutScreen() {
         style={styles.input}
       />
 
-      <TouchableOpacity style={styles.primaryButton} onPress={saveData}>
-        <Text style={styles.primaryButtonText}>Gem udbetalingsoplysninger</Text>
+      <TouchableOpacity
+        style={[styles.primaryButton, { marginTop: 24 }]}
+        onPress={saveData}
+        disabled={busy}
+      >
+        <Text style={styles.primaryButtonText}>
+          {busy ? 'Gemmer…' : 'Gem udbetalingsoplysninger'}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );
