@@ -131,7 +131,7 @@ export default function RequestTimeScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    // <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: -65 }}>
       <ScrollView contentContainerStyle={[styles.container, { paddingBottom: 40 }]}>
         <Text style={styles.header}>Vælg tidspunkt</Text>
         <Text style={styles.cardSubtitle}>{spot.title}</Text>
@@ -275,6 +275,6 @@ export default function RequestTimeScreen() {
           <Text style={styles.primaryButtonText}>Bekræft og fortsæt</Text>
         </TouchableOpacity>
       </ScrollView>
-    </SafeAreaView>
+    // </SafeAreaView>
   );
 }

@@ -21,7 +21,7 @@ export default function SpotDetailsScreen({ route, navigation }) {
   const { spotId } = route.params || {};
   const [spot, setSpot] = useState(null);
   const [providerProfile, setProviderProfile] = useState(null);
-  const [providerReviews, setProviderReviews] = useState([]); // 🔹 NY
+  const [providerReviews, setProviderReviews] = useState([]); 
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -167,7 +167,8 @@ export default function SpotDetailsScreen({ route, navigation }) {
 
         {isOwnSpot && (
           <Text style={[styles.cardSubtitle, { marginTop: 8, color: '#C62828' }]}>
-            Du kan ikke booke din egen parkeringsplads.
+            Fremover vil du ikke kunne booke din egen parkeringsplads, men du kan stadig trykke på vælg tid. 
+            (SpotDetailsScreen - linje 196)
           </Text>
         )}
       </View>
@@ -193,7 +194,7 @@ export default function SpotDetailsScreen({ route, navigation }) {
             { flex: 1, opacity: spot.isAvailable && !isOwnSpot ? 1 : 0.5 },
           ]}
           onPress={() => navigation.navigate('RequestTime', { spot })}
-          disabled={!spot.isAvailable || isOwnSpot}
+          // disabled={!spot.isAvailable || isOwnSpot}
         >
           <Text style={styles.primaryButtonText}>Vælg tid</Text>
         </TouchableOpacity>
