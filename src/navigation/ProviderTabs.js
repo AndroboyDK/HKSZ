@@ -37,7 +37,7 @@ export default function ProviderTabs() {
           switch (route.name) {
             case 'Foresp.': iconName = focused ? 'chatbubbles' : 'chatbubbles-outline'; break;
             case 'Aktiv': iconName = focused ? 'car' : 'car-outline'; break;
-            case 'Profil': iconName = focused ? 'settings' : 'settings-outline'; break;
+            case 'Profil': iconName = focused ? 'person' : 'person-outline'; break;
             default: iconName = 'ellipse';
           }
           return <Ionicons name={iconName} size={30} color={color} />;

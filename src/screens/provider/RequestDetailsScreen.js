@@ -70,7 +70,7 @@ export default function RequestDetailsScreen({ route, navigation }) {
       try {
         if (!request?.customerUid) return;
         const q = query(
-          collection(db, 'reviews'),
+          collection(db, 'ratings'),
           where('toUid', '==', request.customerUid),
           orderBy('createdAt', 'desc'),
           limit(3)
@@ -249,7 +249,7 @@ export default function RequestDetailsScreen({ route, navigation }) {
                 </Text>
                 {customerReviews.map((r) => (
                   <View key={r.id} style={{ marginTop: 4 }}>
-                    <Text style={styles.cardSubtitle}>⭐ {r.stars}</Text>
+                    <Text style={styles.cardSubtitle}>⭐ {r.stars} from a {r.role}</Text> 
                     {!!r.comment && (
                       <Text
                         style={[

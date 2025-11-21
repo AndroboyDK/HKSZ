@@ -73,7 +73,7 @@ export default function SpotDetailsScreen({ route, navigation }) {
       try {
         if (!spot?.providerUid) return;
         const q = query(
-          collection(db, 'reviews'),
+          collection(db, 'ratings'),
           where('toUid', '==', spot.providerUid),
           orderBy('createdAt', 'desc'),
           limit(3)
@@ -176,7 +176,7 @@ export default function SpotDetailsScreen({ route, navigation }) {
       {/* 🔹 Seneste anmeldelser af udlejer */}
       {providerReviews.map((r) => (
         <View key={r.id} style={{ marginTop: 6 }}>
-          <Text style={styles.cardSubtitle}>⭐ {r.stars}</Text>
+          <Text style={styles.cardSubtitle}>⭐ {r.stars} from a {r.role}</Text> 
           {!!r.comment && (
             <Text style={[styles.cardSubtitle, { fontSize: 12, color: '#3d6a61' }]}>
               {r.comment}

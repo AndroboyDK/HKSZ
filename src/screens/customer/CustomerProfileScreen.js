@@ -60,7 +60,7 @@ export default function CustomerProfileScreen() {
         // 🔹 Seneste anmeldelser af kunden
         const reviewsSnap = await getDocs(
           query(
-            collection(db, 'reviews'),
+            collection(db, 'ratings'),
             where('toUid', '==', user.uid),
             orderBy('createdAt', 'desc'),
             limit(3)
@@ -206,7 +206,7 @@ export default function CustomerProfileScreen() {
           {reviews.map((r) => (
             <View key={r.id} style={{ marginTop: 6 }}>
               {/* ⬇️ BRUGER stars I STEDET FOR rating */}
-              <Text style={styles.cardSubtitle}>⭐ {r.stars}</Text>
+              <Text style={styles.cardSubtitle}>⭐ {r.stars} from a {r.role}</Text> 
               {!!r.comment && (
                 <Text style={[styles.cardSubtitle, { fontSize: 12, color: '#3d6a61' }]}>
                   {r.comment}
